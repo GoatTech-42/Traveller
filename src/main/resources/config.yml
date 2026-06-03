@@ -1,0 +1,218 @@
+# ============================================================================
+#  TRAVELLER  v1.0.0
+#  A complete teleportation suite for Purpur / Paper (Minecraft 1.21.11)
+#
+#  Tip: After editing this file, run  /traveller reload  to apply changes
+#       without restarting the server.
+#  Color codes: Use & for legacy colors (&a, &c, &e ...) or hex with &#RRGGBB
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+#  GLOBAL FEATURE TOGGLES
+#  Disable an entire feature (and its commands) by setting it to false.
+# ----------------------------------------------------------------------------
+features:
+  spawn: true # /spawn and /setspawn
+  homes: true # /home, /sethome, /delhome, /homes
+  tpa: true # /tpa, /tpahere, /tpaccept, /tpdeny, /tpcancel
+  back: false # /back (return to last location)
+
+# ----------------------------------------------------------------------------
+#  GENERAL TELEPORT BEHAVIOUR
+#  These defaults apply to every teleport unless overridden per-feature below.
+# ----------------------------------------------------------------------------
+teleport:
+  # Seconds a player must stand still before the teleport completes.
+  # Set to 0 for instant teleports. Permission traveller.bypass.warmup skips it.
+  warmup-seconds: 5
+
+  # Seconds before a player can use the same command again.
+  # Set to 0 to disable. Permission traveller.bypass.cooldown skips it.
+  cooldown-seconds: 5
+
+  # Cancel the warmup if the player moves (changes block) during it.
+  cancel-on-move: true
+
+  # Cancel the warmup if the player takes damage during it.
+  cancel-on-damage: true
+
+  # Play sounds during teleport events.
+  # Sound names use the modern key form (e.g. block.note_block.hat). The old
+  # enum names (e.g. BLOCK_NOTE_BLOCK_HAT) are still accepted for convenience.
+  sounds:
+    enabled: true
+    warmup-tick: block.note_block.hat # played each second of warmup
+    success: entity.enderman.teleport # played on successful teleport
+    cancelled: block.note_block.bass # played when teleport is cancelled
+
+  # Show a particle effect on teleport.
+  particles:
+    enabled: true
+    effect: PORTAL # any org.bukkit.Particle name
+    count: 40
+
+  # Show a countdown title/actionbar during warmup.
+  countdown:
+    enabled: true
+    type: ACTIONBAR # ACTIONBAR, TITLE, or CHAT
+
+# ----------------------------------------------------------------------------
+#  SPAWN  (/spawn, /setspawn)
+# ----------------------------------------------------------------------------
+spawn:
+  # Per-feature overrides. Use -1 to fall back to the global teleport values.
+  warmup-seconds: -1
+  cooldown-seconds: -1
+
+  # Teleport players to spawn automatically when they join for the first time.
+  teleport-on-first-join: false
+
+  # Teleport players to spawn every time they respawn (after death).
+  teleport-on-respawn: false
+
+  # The configured spawn location. Use /setspawn in-game to fill this in,
+  # or edit it manually. Leave world blank to use the server's world spawn.
+  location:
+    world: ''
+    x: 0.5
+    y: 64.0
+    z: 0.5
+    yaw: 0.0
+    pitch: 0.0
+
+# ----------------------------------------------------------------------------
+#  HOMES  (/home, /sethome, /delhome, /homes)
+# ----------------------------------------------------------------------------
+homes:
+  # The default maximum number of homes a player may have.
+  # This is overridden by permission nodes:
+  #   traveller.homes.<number>   e.g. traveller.homes.5  -> up to 5 homes
+  #   traveller.homes.unlimited  -> no limit
+  # The highest matching permission wins; otherwise this default is used.
+  default-limit: 1
+
+  # Name used when a player runs /home or /sethome without specifying a name.
+  default-home-name: home
+
+  # Allow overwriting an existing home with /sethome (same name).
+  allow-overwrite: true
+
+  # Per-feature overrides. Use -1 to fall back to the global teleport values.
+  warmup-seconds: 5
+  cooldown-seconds: 5
+
+  # Restrict home names to letters, numbers, underscore and dash.
+  enforce-safe-names: true
+
+  # Maximum length of a home name.
+  max-name-length: 32
+
+# ----------------------------------------------------------------------------
+#  TPA  (/tpa, /tpahere, /tpaccept, /tpdeny, /tpcancel)
+# ----------------------------------------------------------------------------
+tpa:
+  # Seconds before an unanswered request expires.
+  request-timeout-seconds: 60
+
+  # Per-feature overrides. Use -1 to fall back to the global teleport values.
+  warmup-seconds: -1
+  cooldown-seconds: -1
+
+  # Allow /tpahere (request the OTHER player to come to you).
+  allow-tpahere: true
+
+  # If a player has multiple incoming requests, /tpaccept with no argument
+  # accepts the most recent one. Set false to require specifying the player.
+  accept-most-recent: true
+
+  # Notify the requester when their request expires.
+  notify-on-expire: true
+
+  # Cancel any existing outgoing request when sending a new one.
+  one-request-at-a-time: true
+
+# ----------------------------------------------------------------------------
+#  BACK  (/back)
+# ----------------------------------------------------------------------------
+back:
+  # Per-feature overrides. Use -1 to fall back to the global teleport values.
+  warmup-seconds: -1
+  cooldown-seconds: -1
+
+  # Save the location of players when they die so /back returns them there.
+  save-on-death: true
+
+  # Save the location before any Traveller teleport (spawn/home/tpa) so /back
+  # returns to where they were before teleporting.
+  save-on-teleport: true
+
+# ----------------------------------------------------------------------------
+#  STORAGE
+# ----------------------------------------------------------------------------
+storage:
+  # How often (in minutes) to auto-save player data to disk. 0 = only on quit.
+  auto-save-minutes: 5
+
+# ----------------------------------------------------------------------------
+#  MESSAGES
+#  All player-facing text. Supports & color codes and &#RRGGBB hex colors.
+#  Placeholders are shown in {curly braces}.
+# ----------------------------------------------------------------------------
+messages:
+  prefix: '&8[&bTraveller&8] &r'
+
+  # --- General ---
+  no-permission: '&cYou don''t have permission to do that.'
+  player-only: '&cThis command can only be used by players.'
+  player-not-found: '&cPlayer &e{player} &cis not online.'
+  feature-disabled: '&cThat feature is currently disabled.'
+  reload-success: '&aTraveller configuration reloaded successfully.'
+  unknown-command: '&cUnknown command. &7Try &e/{label} help&7.'
+
+  # --- Warmup / cooldown ---
+  warmup-start: '&7Teleporting in &e{seconds}s&7... don''t move!'
+  warmup-countdown: '&eTeleporting in &6{seconds}&e...'
+  warmup-cancelled-move: '&cTeleport cancelled because you moved.'
+  warmup-cancelled-damage: '&cTeleport cancelled because you took damage.'
+  cooldown-active: '&cPlease wait &e{seconds}s &cbefore using that again.'
+
+  # --- Spawn ---
+  spawn-teleport: '&aWelcome to spawn!'
+  spawn-set: '&aSpawn point set to your current location.'
+  spawn-not-set: '&cThe spawn point has not been configured yet.'
+
+  # --- Homes ---
+  home-teleport: '&aTeleported to home &e{home}&a.'
+  home-set: '&aHome &e{home} &aset at your current location.'
+  home-overwritten: '&aHome &e{home} &aupdated to your current location.'
+  home-deleted: '&aHome &e{home} &adeleted.'
+  home-not-found: '&cYou don''t have a home named &e{home}&c.'
+  home-already-exists: '&cYou already have a home named &e{home}&c. Use a different name.'
+  home-limit-reached: '&cYou have reached your home limit of &e{limit}&c.'
+  home-list-header: '&7Your homes (&e{count}&7/&e{limit}&7): '
+  home-list-entry: '&b{home}'
+  home-list-separator: '&7, '
+  home-list-empty: '&7You have no homes set. Use &e/sethome &7to create one.'
+  home-name-invalid: '&cInvalid home name. Use only letters, numbers, _ and -.'
+  home-name-too-long: '&cThat home name is too long (max &e{max} &cchars).'
+
+  # --- TPA ---
+  tpa-sent: '&aTeleport request sent to &e{player}&a.'
+  tpahere-sent: '&aRequest sent asking &e{player} &ato teleport to you.'
+  tpa-received: '&e{player} &awants to teleport to you. &7Type &a/tpaccept &7or &c/tpdeny&7.'
+  tpahere-received: '&e{player} &awants you to teleport to them. &7Type &a/tpaccept &7or &c/tpdeny&7.'
+  tpa-accepted-target: '&aYou accepted the request from &e{player}&a.'
+  tpa-accepted-requester: '&e{player} &aaccepted your teleport request.'
+  tpa-denied-target: '&cYou denied the request from &e{player}&c.'
+  tpa-denied-requester: '&e{player} &cdenied your teleport request.'
+  tpa-cancelled: '&cYour teleport request was cancelled.'
+  tpa-no-pending: '&cYou have no pending teleport requests.'
+  tpa-no-outgoing: '&cYou have no outgoing teleport request to cancel.'
+  tpa-expired-requester: '&cYour teleport request to &e{player} &chas expired.'
+  tpa-expired-target: '&cThe teleport request from &e{player} &chas expired.'
+  tpa-self: '&cYou can''t send a teleport request to yourself.'
+  tpa-already-sent: '&cYou already have a pending request to &e{player}&c.'
+
+  # --- Back ---
+  back-teleport: '&aTeleported to your previous location.'
+  back-none: '&cThere is no previous location to return to.'
