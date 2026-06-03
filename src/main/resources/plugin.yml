@@ -1,0 +1,133 @@
+name: Traveller
+version: '${project.version}'
+main: com.traveller.Traveller
+api-version: '1.21'
+author: Traveller
+description: A complete teleportation suite - spawn, homes, tpa and more.
+website: https://github.com/
+
+commands:
+  spawn:
+    description: Teleport to the server spawn point.
+    usage: /spawn
+  setspawn:
+    description: Set the server spawn point to your location.
+    usage: /setspawn
+    permission: traveller.setspawn
+  home:
+    description: Teleport to one of your homes.
+    usage: /home [name]
+  sethome:
+    description: Set a home at your current location.
+    usage: /sethome [name]
+  delhome:
+    description: Delete one of your homes.
+    usage: /delhome <name>
+  homes:
+    description: List all your homes.
+    usage: /homes
+  tpa:
+    description: Request to teleport to another player.
+    usage: /tpa <player>
+  tpahere:
+    description: Request another player to teleport to you.
+    usage: /tpahere <player>
+  tpaccept:
+    description: Accept a pending teleport request.
+    usage: /tpaccept [player]
+  tpdeny:
+    description: Deny a pending teleport request.
+    usage: /tpdeny [player]
+  tpcancel:
+    description: Cancel your outgoing teleport request.
+    usage: /tpcancel
+  back:
+    description: Teleport back to your previous location.
+    usage: /back
+  traveller:
+    description: Admin command for Traveller (reload, info).
+    usage: /traveller <reload|info|version>
+    permission: traveller.admin
+
+permissions:
+  traveller.*:
+    description: Grants all Traveller permissions.
+    default: op
+    children:
+      traveller.spawn: true
+      traveller.setspawn: true
+      traveller.home: true
+      traveller.sethome: true
+      traveller.delhome: true
+      traveller.homes: true
+      traveller.tpa: true
+      traveller.tpahere: true
+      traveller.tpaccept: true
+      traveller.tpdeny: true
+      traveller.back: true
+      traveller.admin: true
+      traveller.bypass.cooldown: true
+      traveller.bypass.warmup: true
+  traveller.spawn:
+    description: Allows use of /spawn.
+    default: true
+  traveller.setspawn:
+    description: Allows use of /setspawn.
+    default: op
+  traveller.home:
+    description: Allows use of /home.
+    default: true
+  traveller.sethome:
+    description: Allows use of /sethome.
+    default: true
+  traveller.delhome:
+    description: Allows use of /delhome.
+    default: true
+  traveller.homes:
+    description: Allows use of /homes.
+    default: true
+  traveller.tpa:
+    description: Allows use of /tpa.
+    default: true
+  traveller.tpahere:
+    description: Allows use of /tpahere.
+    default: true
+  traveller.tpaccept:
+    description: Allows use of /tpaccept.
+    default: true
+  traveller.tpdeny:
+    description: Allows use of /tpdeny.
+    default: true
+  traveller.back:
+    description: Allows use of /back.
+    default: true
+  traveller.admin:
+    description: Allows use of admin commands.
+    default: op
+  traveller.bypass.cooldown:
+    description: Bypass teleport cooldowns.
+    default: op
+  traveller.bypass.warmup:
+    description: Bypass teleport warmups.
+    default: op
+  traveller.homes.unlimited:
+    description: Allows unlimited homes.
+    default: op
+  traveller.homes.1:
+    description: Allows up to 1 home.
+    default: false
+  traveller.homes.2:
+    description: Allows up to 2 homes.
+    default: false
+  traveller.homes.3:
+    description: Allows up to 3 homes.
+    default: false
+  traveller.homes.5:
+    description: Allows up to 5 homes.
+    default: false
+  traveller.homes.10:
+    description: Allows up to 10 homes.
+    default: false
+  traveller.homes.25:
+    description: Allows up to 25 homes.
+    default: false
