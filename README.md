@@ -6,7 +6,7 @@ cooldowns, sounds, particles and a live countdown.
 
 - **Version:** 1.0.0
 - **Minecraft:** 1.21.11
-- **Tested against:** Paper 26.1.2 (Purpur is a drop-in replacement for Paper)
+- **Tested against:** Paper 26.1.2 (Purpur is basically the same)
 - **Java:** 21
 
 ## Features
@@ -31,17 +31,17 @@ be set globally or per-feature.
 
 ## Building from source
 
-You'll need JDK 21 and Maven.
+You need JDK 21 and Maven.
 
 ```bash
 mvn clean package
 ```
 
-The finished plugin lands at `target/Traveller-1.0.0.jar`.
+The compiled plugin lands at `target/Traveller-1.0.0.jar`.
 
 ## Configuration
 
-The full configuration with comments lives in
+The full config with comments lives in
 [`src/main/resources/config.yml`](src/main/resources/config.yml). A few highlights:
 
 - **Warmups** – seconds the player must stand still before teleporting. The
